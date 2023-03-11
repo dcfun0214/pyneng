@@ -16,3 +16,5 @@ this stage it is difficult otherwise test the result.
 """
 
 mac = "AAAA:BBBB:CCCC"
+mac_new = bin(int(mac.replace(':',''), 16 )).replace('0b', '')
+print(mac_new)
