@@ -18,3 +18,4 @@ nat = "ip nat inside source list ACL interface FastEthernet0/1 overload"
 
 nat_fa = nat.replace('FastEthernet', 'GigabitEthernet')
 print(nat_fa)
+'git push test'
