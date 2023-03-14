@@ -27,8 +27,15 @@ Restriction: All tasks must be done using the topics covered in this and previou
 """
 
 
-a = intput('enter the IP network in the format: 10.1.1.0/24" ')
+a = input('enter the IP network in the format: 10.1.1.0/24" ')
 a = a.split('/')
 b = a[0].split('.')
-print( f'{b[0]:8} {b[1]:8} {b[2]:8} {b[3]:8}' )
-print( f'{int(b[0]):08b} {int(b[1]):08b} {int(b[2]):08b} {int(b[3]):08b}' )
+c = "1"*int(a[1])+"0"*(32-int(a[1]))
+print('Network:')
+print(f'{b[0]:8}  {b[1]:8}  {b[2]:8}  {b[3]:8}')
+print( f'{int(b[0]):08b}  {int(b[1]):08b}  {int(b[2]):08b}  {int(b[3]):08b}' )
+print()
+print('Mask:')
+print('/'+a[1])
+print(f'{int(c[0:8], 2):<8}  {int(c[8:16], 2):<8}  {int(c[16:24], 2):<8}  {int(c[24:33], 2):<8}')
+print( f'{c[0:8]:8}  {c[8:16]:8}  {c[16:24]:8}  {c[24:33]:8}')
