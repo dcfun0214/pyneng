@@ -51,5 +51,6 @@ london_co = {
     },
 }
 a = input('Enter device name: ')
-b = input(f'Enter parameter name (','.join({london_co[a].keys()}):')
+b = ','.join(london_co[a].keys())
+b = input(f'Enter parameter name {b}: ')
 print(london_co[a][b])

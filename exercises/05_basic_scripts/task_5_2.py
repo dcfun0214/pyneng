@@ -25,3 +25,10 @@ You can then take 8 bits of the binary mask using slices and convert them to dec
 
 Restriction: All tasks must be done using the topics covered in this and previous chapters.
 """
+
+
+a = intput('enter the IP network in the format: 10.1.1.0/24" ')
+a = a.split('/')
+b = a[0].split('.')
+print( f'{b[0]:8} {b[1]:8} {b[2]:8} {b[3]:8}' )
+print( f'{int(b[0]):08b} {int(b[1]):08b} {int(b[2]):08b} {int(b[3]):08b}' )

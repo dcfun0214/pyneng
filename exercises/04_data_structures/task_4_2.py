@@ -17,4 +17,3 @@ this stage it is difficult otherwise test the result.
 mac = "AAAA:BBBB:CCCC"
 mac_new = mac.replace(':', '.')
 pnrint(mac_new)
-'push test'

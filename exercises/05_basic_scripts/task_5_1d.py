@@ -43,3 +43,10 @@ london_co = {
         "routing": True,
     },
 }
+
+
+a = input('Enter device name: ')
+b = ','.join(london_co[a].keys())
+c = input(f'Enter parameter name {b}: ')
+print(london_co[a].setdefault( c.lower(), 'There is no such parameter'))
+
