@@ -79,3 +79,30 @@ trunk = {
 #             print(f" {command} {vlan}")
 #         else:
 #             print(f" {command}")
+trunk = {
+    "0/1": ["add", "10", "20"],
+    "0/2": ["only", "11", "30"],
+    "0/4": ["del", "17"],
+    "0/5": ["add", "10", "21"],
+    "0/7": ["only", "30"],
+}
+
+trunk_template = [
+    "switchport trunk encapsulation dot1q",
+    "switchport mode trunk",
+    "switchport trunk allowed vlan",
+]
+
+for a in trunk:
+    print(f'interface FastEthernet{a}')
+    for b in trunk_template:
+        if b.startswith('switchport trunk allowed'):
+            if trunk[a][0] == 'add':
+                print(f" switchport trunk allowed vlan add {','.join(trunk[a][1:])}")
+            elif trunk[a][0] == 'del':
+                print(f" switchport trunk allowed vlan remove {','.join(trunk[a][1:])}")
+            elif trunk[a][0] == 'only':
+                print(f" switchport trunk allowed vlan {','.join(trunk[a][1:])}")
+        else:
+            print(f' {b}')
+

@@ -12,3 +12,15 @@ Depending on the type of address (described below), print to the stdout:
 
 Restriction: All tasks must be done using the topics covered in this and previous chapters.
 """
+IP = input('enter an IP address in the format 10.0.1.1: ')
+IP_List = IP.split('.')
+if  1 < int(IP_List[0]) < 223:
+	print('unicast')
+elif 224 < int(IP_List[0]) < 239:
+	print('multicast')
+elif IP == '255.255.255.255':
+	print('local broadcast')
+elif IP == '0.0.0.0':
+	print('unassigned')
+else:
+	print('unused')
