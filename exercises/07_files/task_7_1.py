@@ -14,3 +14,16 @@ Outbound Interface    FastEthernet0/0
 Restriction: All tasks must be done using the topics covered in this and previous chapters.
 
 """
+output_template = '''
+{:20}{:20}
+{:20}{:20}
+{:20}{:20}
+{:20}{:20}
+{:20}{:20}
+'''
+
+with open('ospf.txt', 'r') as f:
+    for line in f:
+        i = line.split()
+        print(output_template.format('Prefix', i[1].replace(',',''),'AD/Metric',i[2].replace(']','').replace('[',''),'Next-Hop',i[4].replace(',',''),'Last update',i[5].replace(',',''),'Outbound Interface',i[6]))
+

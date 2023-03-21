@@ -18,3 +18,19 @@ Restriction: All tasks must be done using the topics covered in this and previou
 """
 
 ignore = ["duplex", "alias", "configuration"]
+from sys import argv
+src_file = argv[1]
+dst_file = argv[2]
+lines = []
+with open(src_file, 'r') as src:
+    for line in src:
+        lines.append(line)
+        for b in ignore:
+            for i in lines:
+                if i.startswith('!'):
+                    lines.remove(i)
+                elif b in i:
+                    lines.remove(i)
+
+with open(dst_file, 'w') as dst:
+	dst.write(''.join(lines))
