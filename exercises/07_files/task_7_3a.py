@@ -40,3 +40,28 @@ if you sort list of lists above.
 Restriction: All tasks must be done using the topics covered in this and previous chapters.
 
 """
+list1 = []
+list2 = []
+list3 = []
+list4 = []
+with open('CAM_table.txt', 'r') as f:
+#     print(f.readlines())
+    for i in f.readlines():
+        list1.append(i.strip())
+for i in list1:
+    if i == '':
+        list1.remove(i)
+    elif i.split()[0][-1] == '0':
+        list2.append(i)
+for x in list2:
+    y = x.replace('DYNAMIC', '')
+    list3.append(y)
+for a in list3:
+    list4.append(a.split())
+for i in list4:
+    i[0] = int(i[0])
+list4.sort()
+# print(list4)
+for a, b, c  in list4:
+    print(f"{a:<9}{b:20}{c}")
+

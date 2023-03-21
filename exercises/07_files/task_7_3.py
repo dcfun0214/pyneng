@@ -20,3 +20,19 @@ the following table was printed on the stdout:
 Restriction: All tasks must be done using the topics covered in this and previous chapters.
 
 """
+list1 = []
+list2 = []
+with open('CAM_table.txt', 'r') as f:
+#     print(f.readlines())
+    for i in f.readlines():
+        list1.append(i.strip())
+for i in list1:
+    if i == '':
+        list1.remove(i)
+    elif i.split()[0][-1] == '0':
+        list2.append(i)
+for x in list2:
+    y = x.replace('DYNAMIC', '')
+    print(y)
+
+
