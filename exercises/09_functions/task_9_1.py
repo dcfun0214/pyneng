@@ -73,3 +73,12 @@ def generate_access_config(intf_vlan_mapping, access_template):
 
     Returns a list of commands.
     """
+    result = []
+    for a, b in intf_vlan_mapping.items():
+        result.append(f'interface {a}')
+        for c in access_template:
+            if c.endswith('vlan'):
+                result.append(f'{c} {b}')
+            else:
+                result.append(c)
+    return result
