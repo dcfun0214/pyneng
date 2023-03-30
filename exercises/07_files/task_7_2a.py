@@ -19,16 +19,25 @@ Restriction: All tasks must be done using the topics covered in this and previou
 ignore = ["duplex", "alias", "configuration"]
 from sys import argv
 file = argv[1]
-lines = []
-with open(file, 'r') as f:
-    for line in f:
-        lines.append(line)
-        for b in ignore:
-            for i in lines:
-                if i.startswith('!'):
-                    lines.remove(i)
-                elif b in i:
-                    lines.remove(i)
+#lines = []
+#with open(file, 'r') as f:
+#    for line in f:
+#        lines.append(line)
+#        for b in ignore:
+#            for i in lines:
+#                if i.startswith('!'):
+#                    lines.remove(i)
+#                elif b in i:
+#                    lines.remove(i)
+#
+#print(''.join(lines))
 
-print(''.join(lines))
+with open(file, 'r') as f:
+    x = f.readlines()
+    for a in ignore:
+        for b in x:
+            if b.startswith('!') or a in b:
+                x.remove(b)
+    for i in x:
+        print(i.rstrip())
 

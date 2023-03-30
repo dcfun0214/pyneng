@@ -41,14 +41,21 @@ interface Ethernet0/3
 
 """
 
+#from sys import argv
+#file = argv[1]
+#lines = []
+#with open(file, 'r') as f:
+#    for line in f:
+#        lines.append(line)
+#        for i in lines:
+#            if i.startswith('!'):
+#                lines.remove(i)
+#print(''.join(lines))
+
 from sys import argv
 file = argv[1]
-lines = []
 with open(file, 'r') as f:
     for line in f:
-        lines.append(line)
-        for i in lines:
-            if i.startswith('!'):
-                lines.remove(i)
-print(''.join(lines))
+        if not line.startswith('!') and line:
+            print(line,end='')
 

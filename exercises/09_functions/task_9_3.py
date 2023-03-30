@@ -24,3 +24,17 @@ Check the operation of the function using the config_sw1.txt file.
 
 Restriction: All tasks must be done using the topics covered in this and previous chapters.
 """
+
+def get_int_vlan_map(config_filename):
+	access_port = {}
+	trunk_port = {}
+	result = [access_port, trunk_port]
+	with open(config_filename) as f:
+		for a in f.readlines():
+			if a.startswith('interface'):
+				inf = a.split()[-1]
+			elif 'access vlan' in a:
+				access_port[inf] = int(a.split()[-1])
+			elif 'allowed vlan' in a:
+				trunk_port[inf] = [int(v) for v in a.split()[-1].split(",")]
+	return tuple(result)
