@@ -66,12 +66,13 @@ def ignore_command(command, ignore):
     return ignore_status
 
 def convert_config_to_dict(config_filename):
-	result = {}
-	list1 = []
-	with open(config_filename) as f:
+	with open('config_sw1.txt') as f:
+		result = {}
 		for i in f:
-			if not ignore_command(i, ignore) and not i.startswith('!') and i.strip():
-				result[i.strip()] = []
-			elif i.startswith(' '):
-				result[i.strip()].append(i)
+			if i.strip() and not i.startswith('!') and not ignore_command(i, ignore):
+				if not i.startswith(' '):
+					a = i
+					result[a.strip()] = []
+				else:
+					result[a.strip()].append(i.strip())
 	return result
