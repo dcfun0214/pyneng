@@ -44,6 +44,11 @@ def parse_cdp_neighbors(command_output):
     both with files and with output from equipment.
     Plus, we learn to work with such a output.
     """
+    with open('sh_cdp_n_sw1.txt') as f:
+    remote_device_list=[]
+    local_port_list=[]
+    remote_port_list=[]
+    config_list = [ i.strip() for i in f.readlines() if i.strip()]
 
 
 if __name__ == "__main__":
