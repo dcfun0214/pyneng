@@ -74,6 +74,8 @@ Do not copy the code of the create_network_map and draw_topology functions.
 Restriction: All tasks must be done using the topics covered in this and previous chapters.
 
 """
+from task_11_2 import create_network_map
+
 
 infiles = [
     "sh_cdp_n_sw1.txt",
@@ -81,3 +83,6 @@ infiles = [
     "sh_cdp_n_r2.txt",
     "sh_cdp_n_r3.txt",
 ]
+
+def unique_network_map():
+	

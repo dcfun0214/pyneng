@@ -27,14 +27,26 @@ command output files, you need to correct the function code in task 11.1.
 Restriction: All tasks must be done using the topics covered in this and previous chapters.
 
 """
+from task_11_1 import parse_cdp_neighbors
+
 infiles = [
     "sh_cdp_n_sw1.txt",
     "sh_cdp_n_r1.txt",
     "sh_cdp_n_r2.txt",
     "sh_cdp_n_r3.txt",
 ]
-def create_network_map(files):
-    with open('config_all.txt', 'a') as f:
-        for i in files:
-            with open(i) as x:
-                f.write(x.read())
+
+def create_network_map(filenames):
+    jieguo={}
+    result_all = []
+    q = []
+    e = []
+    for file in filenames:
+        with open(file) as f:
+            result_all.append(parse_cdp_neighbors(f.read()))
+    for i in result_all:
+        for x, y in i.items():
+            q.append(x)
+            e.append(y)
+    jieguo=dict(zip(q,e))
+    return jieguo
