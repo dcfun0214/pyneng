@@ -33,3 +33,8 @@ infiles = [
     "sh_cdp_n_r2.txt",
     "sh_cdp_n_r3.txt",
 ]
+def create_network_map(files):
+    with open('config_all.txt', 'a') as f:
+        for i in files:
+            with open(i) as x:
+                f.write(x.read())

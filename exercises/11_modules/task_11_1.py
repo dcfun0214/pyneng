@@ -37,18 +37,35 @@ Restriction: All tasks must be done using the topics covered in this and previou
 
 
 def parse_cdp_neighbors(command_output):
-    """
-    Here we pass the output of the command as single string because it is in this form that
-    received command output from equipment. Taking the output of the command as an argument,
-    instead of a filename, we make the function more generic: it can work
-    both with files and with output from equipment.
-    Plus, we learn to work with such a output.
-    """
-    with open('sh_cdp_n_sw1.txt') as f:
-    remote_device_list=[]
-    local_port_list=[]
-    remote_port_list=[]
-    config_list = [ i.strip() for i in f.readlines() if i.strip()]
+	"""
+	Here we pass the output of the command as single string because it is in this form that
+	received command output from equipment. Taking the output of the command as an argument,
+	instead of a filename, we make the function more generic: it can work
+	both with files and with output from equipment.
+	Plus, we learn to work with such a output.
+	"""
+	result={}
+	remote_device=[]
+	local_port_type=[]
+	local_port_num=[]
+	remote_port_type=[]
+	remote_port_num=[]
+	config_list = [ i.strip() for i in command_output.splitlines() if i.strip()]
+	for x in config_list[4:]:
+		a,b,c,*rest,d,e = x.split()
+		remote_device.append(a)
+		local_port_type.append(b)
+		local_port_num.append(c)
+		remote_port_type.append(d)
+		remote_port_num.append(e)
+	local_port = [ ''.join(i) for i in list(zip(local_port_type,local_port_num))]
+	remote_port = [ ''.join(i) for i in list(zip(remote_port_type,remote_port_num))]
+	local_device = [config_list[0].split('>')[0]] * len(local_port)
+	remote_combine= zip(remote_device, remote_port)
+	local_combine = zip(local_device, local_port)
+	result=dict(zip(local_combine, remote_combine))
+	return result
+
 
 
 if __name__ == "__main__":
