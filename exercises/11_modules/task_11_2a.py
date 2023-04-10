@@ -74,8 +74,8 @@ Do not copy the code of the create_network_map and draw_topology functions.
 Restriction: All tasks must be done using the topics covered in this and previous chapters.
 
 """
+from draw_network_graph import draw_topology
 from task_11_2 import create_network_map
-
 
 infiles = [
     "sh_cdp_n_sw1.txt",
@@ -84,5 +84,12 @@ infiles = [
     "sh_cdp_n_r3.txt",
 ]
 
-def unique_network_map():
-	
+def unique_network_map(topology_dict):
+    topology_dict_copy = topology_dict.copy()
+    for i in topology_dict.keys():
+        if topology_dict[i] in topology_dict_copy.keys():
+            del topology_dict_copy[i]
+    return topology_dict_copy
+
+if __name__ == "__main__":
+    draw_topology(unique_network_map(create_network_map(infiles)))
