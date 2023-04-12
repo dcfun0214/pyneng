@@ -33,3 +33,11 @@ The function should return a list like this:
  '172.21.41.129', '172.21.41.130', '172.21.41.131', '172.21.41.132']
 
 """
+import ipaddress
+def convert_ranges_to_ip_list(ip_list):
+	result = []
+	for i in ip_list:
+		if ipaddress.ip_address(i):
+			result.append(i)
+		else:
+			

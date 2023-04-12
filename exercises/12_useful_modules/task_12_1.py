@@ -18,3 +18,16 @@ but it is the code that needs to be checked for the job. This is to simplify tes
 
 Restriction: All tasks must be done using the topics covered in this and previous chapters.
 """
+
+import subprocess
+
+def ping_ip_addresses(ip_list):
+	reachable_list = []
+	unreachable_list = []
+	for i in ip_list:
+		result = subprocess.run(['ping', '-c', '3', '-n', i])
+		if result.returncode == 0:
+			reachable_list.append(i)
+		else:
+			unreachable_list.append(i)
+	return reachable_list, unreachable_list
