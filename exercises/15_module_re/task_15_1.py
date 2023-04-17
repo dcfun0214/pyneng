@@ -22,3 +22,9 @@ of the IP address, address ranges, and so on, since the command
 output from network device is processed, not user input.
 
 """
+import re
+
+def get_ip_from_cfg(file):
+	with open(file, 'r') as f:
+		match = re.findall(r' ip address (\S+) (\S+)', f.read())
+	return match
