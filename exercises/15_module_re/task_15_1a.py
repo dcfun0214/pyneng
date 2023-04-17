@@ -24,3 +24,21 @@ of the IP address, address ranges, and so on, since the command
 output from network device is processed, not user input.
 
 """
+import re
+
+def get_ip_from_cfg(file):
+    result = {}
+    with open(file) as f:
+        for i in f:
+            if i.startswith('interface'):
+                a = i
+                match_int = re.search(r'interface (\S+)', a)
+                result[match_int.group(1)] = {}
+            elif i.startswith(' ip address'):
+                match = re.search(r' ip address (\S+) (\S+)', i)
+                result[match_int.group(1)] = (match.group(1), match.group(2))
+        b = result.copy()
+        for a in result.keys():
+            if result[a] == {}:
+                del b[a]
+    return b
