@@ -22,3 +22,14 @@ To get this result, use regular expressions.
 Check the operation of the function using the example of the sh_ip_int_br.txt file.
 
 """
+import re
+
+
+def parse_sh_ip_int_br(file):
+    with open(file, 'r') as f:
+        result = []
+        for i in f.readlines():
+            match = re.search(r'(\S+)\s+(\S+)\s+\w+\s+\w+\s+(\w+\s?\w+)\s+(\w+)', i)
+            if match:
+                result.append(match.groups())
+    return result
