@@ -32,3 +32,14 @@ In the file with the rules for the ASA:
 
 In all rules for ASA, the interfaces will be the same (inside, outside).
 """
+
+import re
+
+
+def convert_ios_nat_to_asa(file_src, file_dst):
+	with open(file_src, 'r') as fs:
+		for i in fs.readlines():
+			match = re.search(r'.*tcp (\S+) (\d+) interface \S+ (\d+)', i)	
+			ip, src_port, dst_port = match.groups()
+			with open(file_dst, 'a+') as fd:
+				fd.write(f'\nobject network LOCAL_{ip}\n host {ip}\n nat (inside,outside) static interface service tcp {src_port} {dst_port}')

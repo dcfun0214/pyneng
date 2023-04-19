@@ -24,3 +24,16 @@ interface Loopback0
 
 Check the operation of the function using the example of the config_r1.txt file.
 """
+
+import re
+
+def get_ints_without_description(file):
+    with open('config_r1.txt') as fs:
+        match_all = []
+        for i in fs.readlines():
+            if i.startswith('interface'):
+                a = re.search(r'interface (\S+)', i)
+                match_all.append(a.group(1))
+            elif i.startswith(' description'):
+                match_all.remove(a.group(1))
+    return match_all

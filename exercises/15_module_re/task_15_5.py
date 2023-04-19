@@ -26,3 +26,15 @@ of the interface:
 
 Check the operation of the function on the sh_cdp_n_sw1.txt file.
 """
+
+import re
+
+
+def generate_description_from_cdp(file):
+    result = {}
+    with open('sh_cdp_n_sw1.txt') as fs:
+        match = re.findall(r'(\w+)\s+(\w+ \S+)\s+\d+\s+\w \w \w\s+\d+\s+(\w+ \S+)', fs.read())
+        for i in match:
+            a, b, c = i
+            result[b] = (f'description Connected to {a} port {c}')
+    return result
