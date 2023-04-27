@@ -30,3 +30,18 @@ the file name, the rest - from the contents in the files.
 Check the function on the contents of the files sw1_dhcp_snooping.txt,
 sw2_dhcp_snooping.txt, sw3_dhcp_snooping.txt.
 """
+import re
+import csv
+
+def write_dhcp_snooping_to_csv(filenames, output):
+    result_src = [['switch','mac','ip','vlan','interface']]
+    for file in filenames:
+        with open(file) as src:
+            result = re.findall(r'(\S+)\s+(\S+)\s+\w+\s+\S+\s+(\d+)\s+(\S+)', src.read())
+            for i in result:
+                b = list(i)
+                b.insert(0, src.name[0:3])
+                result_src.append(b)
+    with open(output, 'w', newline='') as dst:
+        writer = csv.writer(dst)
+        writer.writerows(result_src)

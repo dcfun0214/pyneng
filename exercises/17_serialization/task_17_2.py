@@ -43,8 +43,24 @@ In addition, a list of headers has been created, which should be written to CSV.
 """
 
 import glob
+import re
+import csv
 
 sh_version_files = glob.glob("sh_vers*")
 # print(sh_version_files)
 
 headers = ["hostname", "ios", "image", "uptime"]
+result = []
+for file in sh_version_files:
+    with open(file) as f:
+        re_search = re.search(r'Cisco IOS Software.*Version (\S+),.*router uptime is (\d+ days, \d+ hours, \d+ minutes).*System image file is "(\S+)"', f.read(), re.DOTALL )
+        result_sub = list(re_search.group(1, 3, 2))
+        result_sub.insert(0, f.name[-6:-4])
+        print(result_sub)
+
+with open('tatsk_17_2_test.csv', 'w', newline='') as f:
+    writer = csv.writer(f)
+    writer.writerows(result)
+
+with open('tatsk_17_2_test.csv') as f:
+    print(f.read())
