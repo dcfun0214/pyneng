@@ -42,3 +42,8 @@ The result should look the same as the diagram in the task_17_3b_topology.svg fi
 > And a python module to work with graphviz:
 > pip install graphviz
 """
+
+def transform_topology(yaml_file):
+	with open(yaml_file) as f:
+		yaml_dict = yaml.safe_load(f)
+	

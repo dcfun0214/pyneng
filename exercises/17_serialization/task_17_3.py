@@ -25,3 +25,15 @@ Interfaces must be written with a space. That is, so Fa 0/0, and not so Fa0/0.
 
 Check the function on the contents of the sh_cdp_n_sw1.txt file
 """
+import re
+
+def parse_sh_cdp_neighbors(output):
+    result_dict = {}
+    re_findall = re.findall(r'(\w+)\s+(\w+ \d/\d)\s+\d+\s+.*?(\w+ \d/\d)', output, re.DOTALL)
+    hostname = re.search(r'(\w+)>', output)
+    result_dict[hostname.group(1)] = {}
+    for i in re_findall:
+        result_dict[hostname.group(1)][i[1]] = {}
+    for i in re_findall:
+        result_dict[hostname.group(1)][i[1]][i[0]] = i[2]
+    return result_dict

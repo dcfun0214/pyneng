@@ -37,3 +37,17 @@ Check the operation of the save_to_filename parameter and write the resulting
 dictionary to the topology.yaml file. You will need it in the next task.
 
 """
+
+import yaml
+
+from task_17_3 import parse_sh_cdp_neighbors
+result = {}
+def generate_topology_from_cdp(list_of_files, save_to_filename=None):
+    for i in list_of_files:
+        with open(i) as f:
+            a = parse_sh_cdp_neighbors(f.read())
+            result.update(a)
+    if save_to_filename:
+        with open(save_to_filename, 'w') as dst:
+            yaml.dump(result, dst, default_flow_style=False)
+    return result
