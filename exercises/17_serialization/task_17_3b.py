@@ -43,7 +43,21 @@ The result should look the same as the diagram in the task_17_3b_topology.svg fi
 > pip install graphviz
 """
 
+import yaml
+
 def transform_topology(yaml_file):
-	with open(yaml_file) as f:
-		yaml_dict = yaml.safe_load(f)
-	
+    result = {}
+    result_sub = {}
+    with open(yaml_file) as f:
+        a = yaml.safe_load(f)
+    for x, y in a.items():
+        for c, d in y.items():
+            result_key = (x, c)
+            for val1, val2 in d.items():
+                val = (val1, val2)
+                result[result_key] = val
+    result_copy = result.copy()
+    for i in result.keys():
+        if result[i] in result_copy.keys():
+            del result_copy[i]
+    return result_copy
