@@ -97,3 +97,25 @@ commands_with_errors = ["logging 0255.255.1", "logging", "a"]
 correct_commands = ["logging buffered 20010", "ip http server"]
 
 commands = commands_with_errors + correct_commands
+
+
+from netmiko import ConnectHandler
+
+commands = ["logging 10.255.255.1", "logging buffered 20010", "no logging console"]
+
+
+def send_config_commands(device, config_commands, log=True):
+	with ConnectHandler(**device) as ssh:
+		ssh.enable()
+		output = ssh.send_config_set(config_commands)
+	if log:
+		print(f'Connecting to {device["host"]}...')
+	return output
+
+if __name__ == "__main__":
+	with open("devices.yaml") as f:
+		devices = yaml.safe_load(f)
+	for dev in devices:
+		print(send_config_commands(dev, commands))
+
+

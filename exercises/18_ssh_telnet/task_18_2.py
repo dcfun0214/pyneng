@@ -43,5 +43,19 @@ R1#
 The script should send command command to all devices from the devices.yaml file
 using the send_config_commands function.
 """
+from netmiko import ConnectHandler
 
 commands = ["logging 10.255.255.1", "logging buffered 20010", "no logging console"]
+
+
+def send_config_commands(device, config_commands):
+	with ConnectHandler(**device,session_log = r'/tmp/log', session_log_file_mode = 'append') as ssh:
+		ssh.enable()
+		output = ssh.send_config_set(config_commands)
+	return output
+
+if __name__ == "__main__":
+	with open("devices.yaml") as f:
+		devices = yaml.safe_load(f)
+	for dev in devices:
+		print(send_config_commands(dev, commands))

@@ -17,7 +17,13 @@ The script should send command command to all devices from the devices.yaml file
 using the send_show_command function (this part of the code is written).
 """
 import yaml
+from netmiko import ConnectHandler
 
+
+def send_show_command(device, command):
+    ssh = ConnectHandler(**device)
+    output = ssh.send_command(command)
+    return output
 
 if __name__ == "__main__":
     command = "sh ip int br"
