@@ -95,27 +95,37 @@ R1(config)#a
 
 commands_with_errors = ["logging 0255.255.1", "logging", "a"]
 correct_commands = ["logging buffered 20010", "ip http server"]
-
+errors = ['Invalid input detected', 'Incomplete command', 'Ambiguous command']
 commands = commands_with_errors + correct_commands
-
 
 from netmiko import ConnectHandler
 
-commands = ["logging 10.255.255.1", "logging buffered 20010", "no logging console"]
-
-
 def send_config_commands(device, config_commands, log=True):
+	good = {}
+	bad = {}
+	result = (good, bad)
 	with ConnectHandler(**device) as ssh:
-		ssh.enable()
-		output = ssh.send_config_set(config_commands)
+		for command in config_commands:
+			ssh.enable()
+			output = ssh.send_config_set(command)
+			if 'Invalid input detected' in output:
+				bad[command] = output
+				print(f'The {command} command was executed with the error "Invalid input detected at "^" marker." on the device {device["host"]}')
+			elif 'Incomplete command' in output:
+				bad[command] = output
+				print(f'The {command} command was executed with the error "Incomplete command." on the device {device["host"]}')
+			elif 'Ambiguous command' in output:
+				bad[command] = output
+				print(f'The {command} command was executed with the error "Ambiguous command:  "a"" on the device {device["host"]}')
+			else:
+				good[command] = output
 	if log:
 		print(f'Connecting to {device["host"]}...')
-	return output
+	return result
 
 if __name__ == "__main__":
 	with open("devices.yaml") as f:
 		devices = yaml.safe_load(f)
 	for dev in devices:
 		print(send_config_commands(dev, commands))
-
 
