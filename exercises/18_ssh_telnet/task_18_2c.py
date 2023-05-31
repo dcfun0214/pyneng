@@ -47,8 +47,41 @@ In [12]: pprint(result)
                         'R1(config)#'})
 
 """
-
 commands_with_errors = ["logging 0255.255.1", "logging", "a"]
 correct_commands = ["logging buffered 20010", "ip http server"]
-
+errors = ['Invalid input detected', 'Incomplete command', 'Ambiguous command']
 commands = commands_with_errors + correct_commands
+
+from netmiko import ConnectHandler
+import re
+
+
+def send_config_commands(device, config_commands, log=True):
+	good = {}
+	bad = {}
+	result = (good, bad)
+	if log:
+		print(f'Connecting to {device["host"]}...')
+	with ConnectHandler(**device) as ssh:
+		for command in config_commands:
+			ssh.enable()
+			output = ssh.send_config_set(command)
+			search = re.search(r'% .*', output)
+			if search:
+				bad[command] = output
+				print(f'The {command} command was executed with the error {search.group()} on the device {device["host"]}')
+				a = input('Do you want to continue executing commands? [y]/n: ')
+				if a == 'n' or a == 'no':
+					break
+				else:
+					continue
+			else:
+				good[command] = output
+	return result
+
+if __name__ == "__main__":
+	with open("devices.yaml") as f:
+		devices = yaml.safe_load(f)
+	for dev in devices:
+		print(send_config_commands(dev, commands))
+
