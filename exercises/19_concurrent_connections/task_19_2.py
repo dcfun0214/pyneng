@@ -35,3 +35,13 @@ You can create any additional functions to complete the task.
 
 Check the operation of the function on devices from the devices.yaml file.
 """
+from netmiko import ConnectHandler
+from concurrent.futures import ThreadPoolExecutor
+
+def send_show_command_to_device():
+
+
+
+
+def send_show_command_to_devices(devices, command, filename, limit):
+	

@@ -24,3 +24,31 @@ threads for different IP addresses using concurrent.futures (this last part
 must be done in the ping_ip_addresses function).
 
 """
+import subprocess
+import re
+from concurrent.futures import ThreadPoolExecutor
+
+def ping_ip_address(ip):
+    result_ping = []
+    result_unping = []
+    run = subprocess.run(['ping', '-c', '3', '-n', ip], stdout=subprocess.PIPE)
+    run_re = re.search(r', (\d+) received,', run.stdout.decode('utf-8'))
+    if int(run_re.group(1)) > 0:
+        result_ping.append(ip)
+    else:
+        result_unping.append(ip)
+    return result_ping, result_unping
+def ping_ip_addresses(ip_list, limit=3):
+    result_available = []
+    result_unavailable = []
+    final_result = (result_available, result_unavailable)
+    with ThreadPoolExecutor(max_workers=limit) as excutor:
+        result_ips = excutor.map(ping_ip_address, ip_list)
+        for a, b in result_ips:
+            if a:
+                result_available.append(a[0])
+            else:
+                result_unavailable.append(b[0])
+    return final_result
+
+
