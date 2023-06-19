@@ -49,3 +49,20 @@ commands = {
     "192.168.100.1": "sh ip int br",
     "192.168.100.2": "sh int desc",
 }
+
+from task_19_2 import send_show_command_to_device
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+
+def send_command_to_devices(devices, commands_dict, filename, limit):
+	with ThreadPoolExecutor(max_workers=limit) as executor:
+		write_down = []
+		result = []
+		for dev in devices:
+			run = executor.submit(send_show_command_to_device, dev, commands_dict[dev['host']])
+			write_down.append(run)
+		for i in as_completed(write_down):
+			result.append(i.result())
+			b = '\n'.join(result)
+	with open(filename, 'w') as f:
+		f.write(b)

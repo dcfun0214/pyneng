@@ -37,11 +37,34 @@ Check the operation of the function on devices from the devices.yaml file.
 """
 from netmiko import ConnectHandler
 from concurrent.futures import ThreadPoolExecutor
+from itertools import repeat
+import yaml
 
-def send_show_command_to_device():
+with open('devices.yaml') as f:
+	dev = yaml.safe_load(f)
 
-
-
+def send_show_command_to_device(device, command):
+    a = f'{device["host"]}'
+    with ConnectHandler(**device, session_log=a) as con:
+        con.enable()
+        output = con.send_command(command)
+    with open(a) as f:
+        a=f.readlines()
+        for i in a:
+            if command in i:
+                start = a.index(i)
+            if 'exit' in i:
+                end = a.index(i)
+        b = a[int(start):end-1]
+        x = ''.join(b)
+    return x.strip()
 
 def send_show_command_to_devices(devices, command, filename, limit):
-	
+    result = []
+    with ThreadPoolExecutor(max_workers=limit) as excutor:
+        run = excutor.map(send_show_command_to_device, devices, repeat(command))
+        for i in run:
+            result.append(i)
+    write_down = '\n'.join(result)
+    with open(filename, 'w') as f:
+        f.write(write_down)
